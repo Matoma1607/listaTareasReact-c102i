@@ -1,17 +1,36 @@
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ListaTareas from "./ListaTareas";
+import { useState } from "react";
+
+
 const FormularioTarea = () => {
+    const {listaTareas, setListaTareas} = useState([])
+    const {tarea, setTarea} = useState("")
+
+    //const tomarTexto = (e) =>{
+        //setTarea(e.target.value)
+    //}
+
+    const handleSubmit  = (e) =>{
+        e.preventDefault();
+        //guardar la atera en listaTarea
+        //operador spread
+        setListaTareas([...listaTareas, tarea])
+        //limpiar el stado
+        setTarea("");
+    }
+
   return (
     <section>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3 d-flex">
-          <Form.Control type="text" placeholder="Agrega una tarea" />
+          <Form.Control type="text" placeholder="Agrega una tarea" onChange={(e)=>setTarea(e.target.value)} value={tarea}/>
           <Button variant="danger" type="submit">
             Enviar
           </Button>
         </Form.Group>
-      </Form>
+      </Form> 
       <ListaTareas></ListaTareas>
     </section>
   );
