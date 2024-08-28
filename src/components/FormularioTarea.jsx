@@ -1,5 +1,6 @@
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+//import Button from "react-bootstrap/Button";
+//import Form from "react-bootstrap/Form";
+import { Form, Button } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState } from "react";
 
