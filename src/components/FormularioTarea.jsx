@@ -6,8 +6,8 @@ import { useState } from "react";
 
 
 const FormularioTarea = () => {
-    const {listaTareas, setListaTareas} = useState([])
-    const {tarea, setTarea} = useState("")
+    const [listaTareas, setListaTareas]= useState([])
+    const [tarea, setTarea] = useState("")
 
     //const tomarTexto = (e) =>{
         //setTarea(e.target.value)
