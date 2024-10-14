@@ -3,12 +3,16 @@ import { ListGroup, Button } from "react-bootstrap";
 const ItemTarea = ({ tarea, borrarTarea, iniciarEdicion }) => {
   return (
     <ListGroup.Item className="d-flex justify-content-between">
-      {tarea}
+      <span>{tarea.titulo}</span>
       <div>
-        <Button variant="warning" onClick={() => iniciarEdicion(tarea, tarea)}>
+        <Button
+          variant="warning"
+          className="me-2"
+          onClick={() => iniciarEdicion(tarea)}
+        >
           Editar
         </Button>
-        <Button variant="danger" onClick={() => borrarTarea(tarea)}>
+        <Button variant="danger" onClick={() => borrarTarea(tarea.id)}>
           Borrar
         </Button>
       </div>

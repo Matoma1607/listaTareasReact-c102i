@@ -1,0 +1,28 @@
+{
+  "tareas": [
+    {
+      "id": 1,
+      "titulo": "Aprender React",
+      "descripcion": "Estudiar los conceptos fundamentales de React y crear una aplicación básica.",
+      "completado": false,
+      "fechaCreacion": "2024-10-13T10:00:00Z",
+      "fechaActualizacion": "2024-10-13T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "titulo": "Hacer la compra",
+      "descripcion": "Comprar los alimentos y productos necesarios para la semana.",
+      "completado": false,
+      "fechaCreacion": "2024-10-13T11:00:00Z",
+      "fechaActualizacion": "2024-10-13T11:00:00Z"
+    },
+    {
+      "id": 3,
+      "titulo": "Ir al gimnasio",
+      "descripcion": "Completar la rutina de ejercicios del día.",
+      "completado": true,
+      "fechaCreacion": "2024-10-12T09:00:00Z",
+      "fechaActualizacion": "2024-10-13T09:30:00Z"
+    }
+  ]
+}
