@@ -4,15 +4,16 @@ import ItemTarea from "./ItemTarea";
 const ListaTareas = ({ listaTareas, borrarTarea, iniciarEdicion }) => {
   return (
     <ListGroup>
-      {listaTareas.map((item, posicionTarea) => (
+      {listaTareas.map((item) => (
         <ItemTarea
-          key={posicionTarea}
+          key={item.id}
           tarea={item}
           borrarTarea={borrarTarea}
-          iniciarEdicion={() => iniciarEdicion(item, posicionTarea)}
+          iniciarEdicion={iniciarEdicion}
         />
       ))}
     </ListGroup>
   );
 };
+
 export default ListaTareas;

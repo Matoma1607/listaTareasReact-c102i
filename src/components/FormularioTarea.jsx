@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, Button } from "react-bootstrap";
 import ListaTareas from "./ListaTareas";
 import { useState, useEffect } from "react";
@@ -6,43 +5,56 @@ import { useForm } from "react-hook-form";
 
 const FormularioTarea = () => {
   const tareasLocalstorage =
-    JSON.parse(localStorage.getItem("tareaskey")) || [];
+    JSON.parse(localStorage.getItem("tareasKey")) || [];
   const [listaTareas, setListaTareas] = useState(tareasLocalstorage);
-  const [tareaEditando, setTareaEditando] = useState(null);
-  const [tareaActual, setTareaActual] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentTarea, setCurrentTarea] = useState(null);
+
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     reset,
   } = useForm();
 
   useEffect(() => {
-    localStorage.setItem("tareaskey", JSON.stringify(listaTareas));
+    localStorage.setItem("tareasKey", JSON.stringify(listaTareas));
   }, [listaTareas]);
 
   const onSubmit = (data) => {
-    if (tareaEditando !== null) {
-      const tareasActualizadas = listaTareas.map((item, index) =>
-        index === tareaEditando ? data.tarea : item
+    if (isEditing && currentTarea) {
+      const updatedTareas = listaTareas.map((t) =>
+        t.id === currentTarea.id
+          ? { ...t, titulo: data.tarea, fechaActualizacion: new Date() }
+          : t
       );
-      setListaTareas(tareasActualizadas);
-      setTareaEditando(null);
+      setListaTareas(updatedTareas);
+      setIsEditing(false);
+      setCurrentTarea(null);
     } else {
-      setListaTareas([...listaTareas, data.tarea]);
+      const nuevaTarea = {
+        id: Date.now(),
+        titulo: data.tarea,
+        descripcion: "Descripción de ejemplo",
+        completado: false,
+        fechaCreacion: new Date(),
+        fechaActualizacion: new Date(),
+      };
+      setListaTareas([...listaTareas, nuevaTarea]);
     }
     reset();
   };
 
-  const iniciarEdicion = (tarea, index) => {
-    setTareaEditando(index);
-    setTareaActual(tarea);
-    reset({ tarea });
+  const borrarTarea = (id) => {
+    const tareaFiltradas = listaTareas.filter((t) => t.id !== id);
+    setListaTareas(tareaFiltradas);
   };
 
-  const borrarTarea = (nombreTarea) => {
-    const tareaFiltradas = listaTareas.filter((item) => item !== nombreTarea);
-    setListaTareas(tareaFiltradas);
+  const iniciarEdicion = (tarea) => {
+    setIsEditing(true);
+    setCurrentTarea(tarea);
+    setValue("tarea", tarea.titulo);
   };
 
   return (
@@ -53,22 +65,13 @@ const FormularioTarea = () => {
             type="text"
             placeholder="Agrega una tarea"
             {...register("tarea", {
-              required: "Este campo es un dato obligatorio",
-              minLength: {
-                value: 3,
-                message: "La tarea debe contener como mínimo 3 caracteres",
-              },
-              maxLength: {
-                value: 15,
-                message: "La tarea debe contener como máximo 15 caracteres",
-              },
+              required: "Este campo es obligatorio",
+              minLength: { value: 3, message: "Mínimo 3 caracteres" },
+              maxLength: { value: 100, message: "Máximo 100 caracteres" },
             })}
-            value={tareaActual}
-            onChange={(e) => setTareaActual(e.target.value)}
           />
-          <Button variant="danger" type="submit">
-            {tareaEditando !== null ? "Guardar" : "Enviar"}{" "}
-            {/* Cambia el texto del botón */}
+          <Button variant="primary" type="submit">
+            {isEditing ? "Guardar cambios" : "Agregar"}
           </Button>
         </Form.Group>
         <Form.Text className="text-danger">{errors.tarea?.message}</Form.Text>
@@ -81,5 +84,4 @@ const FormularioTarea = () => {
     </section>
   );
 };
-
 export default FormularioTarea;
